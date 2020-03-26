@@ -15,6 +15,7 @@ namespace Cw3.Controllers
 
         private readonly IDbService _dbService;
         
+
         public StudentsController(IDbService db)
         {
             _dbService = db;
@@ -37,15 +38,34 @@ namespace Cw3.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateStudent(Student student)
+        public IActionResult UpdateStudent(int id)
         {
-            return Ok("Aktualizacja dokończona");
+            foreach(var studnet in _dbService.GetStudents())
+            {
+                if (studnet.IdStudent == id)
+                {
+                    return Ok("Aktualizacja dokończona");
+                }
+  
+            }
+            return NotFound("Nie ma takieg id w bazie studnetów");
+                
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            return Ok("Usuwanie zakończone");
+
+            foreach (var studnet in _dbService.GetStudents())
+            {
+                if (studnet.IdStudent == id)
+                {
+                    return Ok("Usuwanie zakończone");
+                }
+
+            }
+            return NotFound("Nie ma takieg id w bazie studnetów");
+            
         }
     }
 }
